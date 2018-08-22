@@ -1,0 +1,13 @@
+.container{
+    display: flex;
+    flex-wrap: wrap;
+}
+.box{
+    background-color: rgb(79, 79, 216);
+    margin: 5px;
+    box-shadow: 1px 1px 5px;
+    position: relative;
+    top: 10px;
+    width: 100px;
+    height: 100px;
+}
