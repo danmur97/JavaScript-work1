@@ -73,7 +73,7 @@ function clicked_box(){
                 if(disp_img_num[0] != i && disp_img_num[1] != i){
                     this.style.backgroundColor = "rgb(0,0,0)";
                     image =  document.createElement("img");
-                    image.src = "/images/img"+cards[i]+".jpg";
+                    image.src = "images/img"+cards[i]+".jpg";
                     image.width = 100;
                     image.height = 100;
                     this.appendChild(image);
