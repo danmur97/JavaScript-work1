@@ -6,7 +6,12 @@ var box_list = [];
 var turn = 0;
 var wait = false;
 var pairs_found = 0;
+
 var won_theme = document.getElementById("won_theme");
+var ok_bip = document.getElementById("ok_bip");
+
+var score = 0;
+
 createBoxes();
 cards_init();
 timer = setInterval(boxes_setColor,500);
@@ -20,7 +25,7 @@ function createBoxes(){
         new_box.style.backgroundColor = "rgb("+Math.round(Math.random()*255)+","+Math.round(Math.random()*255)+","+Math.round(Math.random()*255)+")"; 
         new_box.classList.add("box");
         new_box.addEventListener("click", clicked_box);
-        document.getElementById("main").appendChild(new_box);
+        document.getElementById("row"+(Math.floor(i/5)+1)).appendChild(new_box);
         box_list.push(new_box);
     }
 }
@@ -56,11 +61,15 @@ function cards_init(){
     }
 }
 var disp_img = [];
-var disp_img_num = [0,0];
+var disp_img_num = [-1,-1];
 function clicked_box(){
+    if(!start_game){
+        chronometer = setInterval(chronometer_fx, 100);
+        start_game = true;
+    }
     if(!wait){
         for(i = 0;i<20;i++){
-            if(box_list[i] == this ){
+            if(box_list[i] == this){
                 if(disp_img_num[0] != i && disp_img_num[1] != i){
                     this.style.backgroundColor = "rgb(0,0,0)";
                     image =  document.createElement("img");
@@ -79,10 +88,16 @@ function clicked_box(){
                             box_list[disp_img_num[0]].removeEventListener("click", clicked_box);
                             pairs_found++;
                             console.log(pairs_found);
-                            if(pairs_found == 10){
+                            ok_bip.play();
+                            score += 100;
+                            if(pairs_found >= 10){
                                 won_theme.play();
+                                clearInterval(chronometer);
+                                document.getElementById("timer_txt").innerHTML = "Time: "+chr_time/10+"s";
+                                document.getElementById("score_txt").innerHTML = "Score: "+score;
                             }
                         }else{
+                            bad_bip.play();
                             wait = true;
                             setTimeout(erase_img,1000);
                         }
@@ -99,4 +114,16 @@ function erase_img(){
     disp_img = [];
     disp_img_num = [];
     wait = false;
+}
+var chr_time = 0;
+var start_game = false;
+var chronometer;
+function chronometer_fx(){
+    chr_time++;
+    score --;
+    if(score  < 0){
+        score = 0;
+    }
+    document.getElementById("timer_txt").innerHTML = "Time: "+chr_time/10+"s";
+    document.getElementById("score_txt").innerHTML = "Score: "+score;
 }
