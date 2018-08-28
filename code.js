@@ -89,7 +89,7 @@ function clicked_box(){
                             pairs_found++;
                             console.log(pairs_found);
                             ok_bip.play();
-                            score += 100;
+                            score += stepfx(1200-chr_time);
                             if(pairs_found >= 10){
                                 won_theme.play();
                                 clearInterval(chronometer);
@@ -115,15 +115,17 @@ function erase_img(){
     disp_img_num = [];
     wait = false;
 }
+function stepfx(v){
+    if(v  < 0){
+        v = 0;
+    }
+    return v;
+}
 var chr_time = 0;
 var start_game = false;
 var chronometer;
 function chronometer_fx(){
     chr_time++;
-    score --;
-    if(score  < 0){
-        score = 0;
-    }
     document.getElementById("timer_txt").innerHTML = "Time: "+chr_time/10+"s";
     document.getElementById("score_txt").innerHTML = "Score: "+score;
 }
